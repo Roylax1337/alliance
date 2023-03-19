@@ -16,9 +16,9 @@ function Start() {
   const SendMsg = () => {
     socket.send(commands.shift() + "\r\n")
     if(commands.length > 0)
-      setTimeout(() => SendMsg(), 30000)
+      setTimeout(() => SendMsg(), 100)
     else{
-      setInterval(() => socket.send(RandMSG()), 30000) 
+      setInterval(() => socket.send(RandMSG()), 10000) 
     }
   }
 
