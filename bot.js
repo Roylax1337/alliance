@@ -30,4 +30,3 @@ self.onmessage = (e) => {
   data = e.data
   Start()
 }
-
