@@ -325,7 +325,7 @@
 											  r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: true, }), t.bots.push(r);
 										  }, i * t.intervalall);
                                       }),
-									  (this.isStarted = false));
+									  (this.isStarted = false))
                                     : (this.bots.forEach(function (t) {
                                           return t.terminate();
                                       }),
