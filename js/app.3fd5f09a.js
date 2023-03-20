@@ -104,14 +104,30 @@
                                 }),
                             ]),
 							a("div", { staticClass: "item" }, [
-                                t._v(" Interval:"),
+                                t._v(" Интервал между сообщениями на 1 аккаунте (мс):"),
                                 a("input", {
-                                    directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.interval, expression: "interval", modifiers: { lazy: !0, trim: !0 } }],
+                                    directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.oneInterval, expression: "oneInterval", modifiers: { lazy: !0, trim: !0 } }],
                                     attrs: { disabled: t.isStarted, type: "text" },
-                                    domProps: { value: t.interval },
+                                    domProps: { value: t.oneInterval },
                                     on: {
                                         change: function (e) {
-                                            t.interval = e.target.value.trim();
+                                            t.oneInterval = e.target.value.trim();
+                                        },
+                                        blur: function (e) {
+                                            return t.$forceUpdate();
+                                        },
+                                    },
+                                }),
+                            ]),
+							a("div", { staticClass: "item" }, [
+                                t._v(" Интервал между всеми аккаунтами (мс):"),
+                                a("input", {
+                                    directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.allInterval, expression: "allInterval", modifiers: { lazy: !0, trim: !0 } }],
+                                    attrs: { disabled: t.isStarted, type: "text" },
+                                    domProps: { value: t.allInterval },
+                                    on: {
+                                        change: function (e) {
+                                            t.allInterval = e.target.value.trim();
                                         },
                                         blur: function (e) {
                                             return t.$forceUpdate();
@@ -268,7 +284,7 @@
                 {
                     name: "App",
                     data: function () {
-                        return { isStarted: !1, channel: "", interval: 2000, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [] };
+                        return { isStarted: !1, channel: "", oneInterval: 2000, allInterval: 1000, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [] };
                     },
                     computed: {
                         iframeParent: function () {
@@ -288,7 +304,7 @@
                                 this.isStarted
                                     ? this.accounts.forEach(function (e) {
                                           var r = new Worker("bot.js");
-                                          r.postMessage({ account: e, messages: t.messages, channel: t.channel, interval: t.interval }), t.bots.push(r);
+                                          r.postMessage({ account: e, messages: t.messages, channel: t.channel, oneInterval: t.oneInterval, allInterval: t.allInterval }), t.bots.push(r);
                                       })
                                     : (this.bots.forEach(function (t) {
                                           return t.terminate();
