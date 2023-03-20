@@ -136,7 +136,7 @@
                                 }),
                             ]),
                             a("div", { staticClass: "start" }, [a("button", { on: { click: t.Start } }, [t._v(" " + t._s(t.isStarted ? "Stop" : "Start") + " ")])]),
-							a("div", { staticClass: "start" }, [a("button", { on: { click: t.StartOnce } }, [t._v(" " + t._s(t.isStarted ? "Stop (once)" : "Start (once)") + " ")])]),
+							a("div", { staticClass: "start" }, [a("button", { on: { click: t.StartOnce } }, [t._v(" " + t._s(t.isStarted ? "Stop Once" : "Start Once") + " ")])]),
                         ]),
                         a(
                             "div",
@@ -299,6 +299,20 @@
                     },
                     methods: {
                         Start: function () {
+                            var t = this;
+                            localStorage.setItem("data", JSON.stringify(this.$data)),
+                                (this.isStarted = !this.isStarted),
+                                this.isStarted
+                                    ? this.accounts.forEach(function (e) {
+                                          var r = new Worker("bot.js");
+                                          r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, }), t.bots.push(r);
+                                      })
+                                    : (this.bots.forEach(function (t) {
+                                          return t.terminate();
+                                      }),
+                                      (this.bots = []));
+                        },
+						StartOnce: function () {
                             var t = this;
                             localStorage.setItem("data", JSON.stringify(this.$data)),
                                 (this.isStarted = !this.isStarted),
