@@ -104,7 +104,7 @@
                                 }),
                             ]),
 							a("div", { staticClass: "item" }, [
-                                t._v(" Interval (1 | MS):"),
+                                t._v(" Интервал между сообщениями:"),
                                 a("input", {
                                     directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.intervalone, expression: "intervalone", modifiers: { lazy: !0, trim: !0 } }],
                                     attrs: { disabled: t.isStarted, type: "text" },
@@ -120,7 +120,7 @@
                                 }),
                             ]),
 							a("div", { staticClass: "item" }, [
-                                t._v(" Interval (2 | MS):"),
+                                t._v(" Интервал между аккаунтами:"),
                                 a("input", {
                                     directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.intervalall, expression: "intervalall", modifiers: { lazy: !0, trim: !0 } }],
                                     attrs: { disabled: t.isStarted, type: "text" },
@@ -285,7 +285,7 @@
                 {
                     name: "App",
                     data: function () {
-                        return { isStarted: !1, channel: "", intervalone: 2000, intervalall: 1000, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [] };
+                        return { isStarted: !1, channel: "", intervalone: 2000, intervalall: 100, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [] };
                     },
                     computed: {
                         iframeParent: function () {
@@ -303,9 +303,11 @@
                             localStorage.setItem("data", JSON.stringify(this.$data)),
                                 (this.isStarted = !this.isStarted),
                                 this.isStarted
-                                    ? this.accounts.forEach(function (e) {
-                                          var r = new Worker("bot.js");
-                                          r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, }), t.bots.push(r);
+                                    ? this.accounts.forEach(function (e, i) {
+										setTimeout(() => {
+											var r = new Worker("bot.js");
+											r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: false, }), t.bots.push(r);
+										  }, i * t.intervalall);
                                       })
                                     : (this.bots.forEach(function (t) {
                                           return t.terminate();
@@ -317,10 +319,13 @@
                             localStorage.setItem("data", JSON.stringify(this.$data)),
                                 (this.isStarted = !this.isStarted),
                                 this.isStarted
-                                    ? this.accounts.forEach(function (e) {
-                                          var r = new Worker("bot.js");
-                                          r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, }), t.bots.push(r);
-                                      })
+                                    ? (this.accounts.forEach(function (e) {
+										setTimeout(() => {
+											  var r = new Worker("bot.js");
+											  r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: true, }), t.bots.push(r);
+										  }, i * t.intervalall);
+                                      }),
+									  (this.isStarted = false));
                                     : (this.bots.forEach(function (t) {
                                           return t.terminate();
                                       }),
