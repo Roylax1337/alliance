@@ -104,14 +104,14 @@
                                 }),
                             ]),
 							a("div", { staticClass: "item" }, [
-                                t._v(" Интервал между сообщениями на 1 аккаунте (мс):"),
+                                t._v(" Interval (1 | MS):"),
                                 a("input", {
-                                    directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.oneInterval, expression: "oneInterval", modifiers: { lazy: !0, trim: !0 } }],
+                                    directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.intervalone, expression: "intervalone", modifiers: { lazy: !0, trim: !0 } }],
                                     attrs: { disabled: t.isStarted, type: "text" },
-                                    domProps: { value: t.oneInterval },
+                                    domProps: { value: t.intervalone },
                                     on: {
                                         change: function (e) {
-                                            t.oneInterval = e.target.value.trim();
+                                            t.intervalone = e.target.value.trim();
                                         },
                                         blur: function (e) {
                                             return t.$forceUpdate();
@@ -120,14 +120,14 @@
                                 }),
                             ]),
 							a("div", { staticClass: "item" }, [
-                                t._v(" Интервал между всеми аккаунтами (мс):"),
+                                t._v(" Interval (2 | MS):"),
                                 a("input", {
-                                    directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.allInterval, expression: "allInterval", modifiers: { lazy: !0, trim: !0 } }],
+                                    directives: [{ name: "model", rawName: "v-model.lazy.trim", value: t.intervalall, expression: "intervalall", modifiers: { lazy: !0, trim: !0 } }],
                                     attrs: { disabled: t.isStarted, type: "text" },
-                                    domProps: { value: t.allInterval },
+                                    domProps: { value: t.intervalall },
                                     on: {
                                         change: function (e) {
-                                            t.allInterval = e.target.value.trim();
+                                            t.intervalall = e.target.value.trim();
                                         },
                                         blur: function (e) {
                                             return t.$forceUpdate();
@@ -136,6 +136,7 @@
                                 }),
                             ]),
                             a("div", { staticClass: "start" }, [a("button", { on: { click: t.Start } }, [t._v(" " + t._s(t.isStarted ? "Stop" : "Start") + " ")])]),
+							a("div", { staticClass: "start" }, [a("button", { on: { click: t.StartOnce } }, [t._v(" " + t._s(t.isStarted ? "Stop (once)" : "Start (once)") + " ")])]),
                         ]),
                         a(
                             "div",
@@ -284,7 +285,7 @@
                 {
                     name: "App",
                     data: function () {
-                        return { isStarted: !1, channel: "", oneInterval: 2000, allInterval: 1000, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [] };
+                        return { isStarted: !1, channel: "", intervalone: 2000, intervalall: 1000, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [] };
                     },
                     computed: {
                         iframeParent: function () {
@@ -304,7 +305,7 @@
                                 this.isStarted
                                     ? this.accounts.forEach(function (e) {
                                           var r = new Worker("bot.js");
-                                          r.postMessage({ account: e, messages: t.messages, channel: t.channel, oneInterval: t.oneInterval, allInterval: t.allInterval }), t.bots.push(r);
+                                          r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, }), t.bots.push(r);
                                       })
                                     : (this.bots.forEach(function (t) {
                                           return t.terminate();
