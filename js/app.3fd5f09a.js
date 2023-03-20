@@ -135,8 +135,8 @@
                                     },
                                 }),
                             ]),
-                            a("div", { staticClass: "start" }, [a("button", { on: { click: t.Start } }, [t._v(" " + t._s(t.isStarted ? "Stop" : "Start") + " ")])]),
-							a("div", { staticClass: "start" }, [a("button", { on: { click: t.StartOnce } }, [t._v(" " + t._s(t.isStarted ? "Stop Once" : "Start Once") + " ")])]),
+                            a("div", { staticClass: "start" }, [a("button", { on: { click: t.Start } } }, [t._v(" " + t._s(t.isStarted ? "Stop" : "Start") + " ")])]),
+                            a("div", { staticClass: "start" }, [a("button", { on: { click: t.StartOnce } }, [t._v(" " + t._s(t.isStarted ? "Stop (once)" : "Start (once)") + " ")])]),
                         ]),
                         a(
                             "div",
@@ -319,7 +319,7 @@
                             localStorage.setItem("data", JSON.stringify(this.$data)),
                                 (this.isStarted = !this.isStarted),
                                 this.isStarted
-                                    ? (this.accounts.forEach(function (e) {
+                                    ? (this.accounts.forEach(function (e, i) {
 										setTimeout(() => {
 											  var r = new Worker("bot.js");
 											  r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: true, }), t.bots.push(r);
