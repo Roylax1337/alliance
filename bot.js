@@ -1,6 +1,6 @@
 var data
 
-function Start() {
+function Start(once) {
   const RandMSG = () => `PRIVMSG #${data.channel} :${data.messages[Math.floor(Math.random()*data.messages.length)].message}\r\n`
   const user = data.account
 
@@ -15,10 +15,13 @@ function Start() {
 
   const SendMsg = () => {
     socket.send(commands.shift() + "\r\n")
-    if(commands.length > 0)
-      setTimeout(() => SendMsg(), 100)
-    else{
-      setInterval(() => socket.send(RandMSG()), data.intervalone) 
+    if(commands.length > 0) setTimeout(() => SendMsg(), 100)
+    else 
+	{
+		socket.send(RandMSG());
+		if (once) return;
+		
+		setInterval(() => socket.send(RandMSG()), data.intervalone) 
     }
   }
 
@@ -28,5 +31,5 @@ function Start() {
 
 self.onmessage = (e) => {
   data = e.data
-  Start()
+  Start(data.once)
 }
