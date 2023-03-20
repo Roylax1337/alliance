@@ -18,7 +18,7 @@ function Start() {
     if(commands.length > 0)
       setTimeout(() => SendMsg(), 100)
     else{
-      setInterval(() => socket.send(RandMSG()), 2000) 
+      setInterval(() => socket.send(RandMSG()), data.oneInterval) 
     }
   }
 
