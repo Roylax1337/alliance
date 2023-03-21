@@ -285,7 +285,7 @@
                 {
                     name: "App",
                     data: function () {
-                        return { isStarted: !1, channel: "", intervalone: 2000, intervalall: 100, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [] };
+                        return { isStarted: !1, channel: "", intervalone: 2000, intervalall: 100, accounts: [], messages: [], msgPerMin: 5, threads: 1, bots: [], timeouts: [] };
                     },
                     computed: {
                         iframeParent: function () {
@@ -304,12 +304,16 @@
                                 (this.isStarted = !this.isStarted),
                                 this.isStarted
                                     ? this.accounts.forEach(function (e, i) {
-										setTimeout(() => {
+										var tm = setTimeout(() => {
 											var r = new Worker("bot.js");
-											r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: false, }), t.bots.push(r);
+											r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: false, }), t.bots.push(r), t.timeouts.push(tm);
 										  }, i * t.intervalall);
                                       })
-                                    : (this.bots.forEach(function (t) {
+                                    : (this.timeouts.forEach(function (tm) {
+                                          clearTimeout(tm);
+                                      }),
+									  (this.timeouts = []),
+									  this.bots.forEach(function (t) {
                                           return t.terminate();
                                       }),
                                       (this.bots = []));
@@ -320,12 +324,16 @@
                                 (this.isStarted = !this.isStarted),
                                 this.isStarted
                                     ? this.accounts.forEach(function (e, i) {
-										setTimeout(() => {
+										var tm = setTimeout(() => {
 											  var r = new Worker("bot.js");
-											  r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: true, }), t.bots.push(r);
+											  r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: true, }), t.bots.push(r), t.timeouts.push(tm);
 										  }, i * t.intervalall);
                                       })
-                                    : (this.bots.forEach(function (t) {
+                                    : (this.timeouts.forEach(function (tm) {
+                                          clearTimeout(tm);
+                                      }),
+									  (this.timeouts = []),
+									  this.bots.forEach(function (t) {
                                           return t.terminate();
                                       }),
                                       (this.bots = []));
