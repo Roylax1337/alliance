@@ -1,4 +1,4 @@
-(function (t) {
+﻿(function (t) {
     function e(e) {
         for (var a, i, o = e[0], c = e[1], u = e[2], d = 0, p = []; d < o.length; d++) (i = o[d]), Object.prototype.hasOwnProperty.call(n, i) && n[i] && p.push(n[i][0]), (n[i] = 0);
         for (a in c) Object.prototype.hasOwnProperty.call(c, a) && (t[a] = c[a]);
@@ -306,8 +306,9 @@
                                     ? this.accounts.forEach(function (e, i) {
 										var tm = setTimeout(() => {
 											var r = new Worker("bot.js");
-											r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: false, }), t.bots.push(r), t.timeouts.push(tm);
+											r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: false, }), t.bots.push(r);
 										  }, i * t.intervalall);
+										  t.timeouts.push(tm);
                                       })
                                     : (this.timeouts.forEach(function (tm) {
                                           clearTimeout(tm);
@@ -326,8 +327,9 @@
                                     ? this.accounts.forEach(function (e, i) {
 										var tm = setTimeout(() => {
 											  var r = new Worker("bot.js");
-											  r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: true, }), t.bots.push(r), t.timeouts.push(tm);
+											  r.postMessage({ account: e, messages: t.messages, channel: t.channel, intervalone: t.intervalone, once: true, }), t.bots.push(r);
 										  }, i * t.intervalall);
+										  t.timeouts.push(tm);
                                       })
                                     : (this.timeouts.forEach(function (tm) {
                                           clearTimeout(tm);
