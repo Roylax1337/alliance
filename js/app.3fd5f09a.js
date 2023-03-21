@@ -295,7 +295,7 @@
                     created: function () {
                         this.accounts.push({ name: "", token: "" }), this.messages.push({ message: "" });
                         var t = localStorage.getItem("data");
-                        null !== t && Object.assign(this.$data, JSON.parse(t)), (this.isStarted = !1), (this.bots = []);
+                        null !== t && Object.assign(this.$data, JSON.parse(t)), (this.isStarted = !1), (this.bots = []), (this.timeouts = []);
                     },
                     methods: {
                         Start: function () {
