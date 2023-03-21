@@ -61,7 +61,7 @@
         (i.o = function (t, e) {
             return Object.prototype.hasOwnProperty.call(t, e);
         }),
-        (i.p = "/twitch-spam-bot/");
+        (i.p = "/alliance/");
     var o = (window["webpackJsonp"] = window["webpackJsonp"] || []),
         c = o.push.bind(o);
     (o.push = e), (o = o.slice());
